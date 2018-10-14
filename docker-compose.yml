@@ -1,0 +1,25 @@
+version: "3"
+services: 
+    myapp-nginx:
+      image: nginx
+      container_name: myapp-nginx
+      volumes: 
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      ports: 
+        - "8080:80"  
+      links:
+        - myapp-php  
+
+    myapp-php:
+      build:
+        context: ./php72
+      container_name: myapp-php
+      links: 
+        - myapp-mysql  
+
+    myapp-mysql:
+      image: mysql:5.7
+      volumes:
+        - ./mysql/lib:/var/lib/mysql
+      ports:
+        - "3306:3306"  
